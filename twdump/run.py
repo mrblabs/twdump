@@ -1,4 +1,3 @@
-from collections import Counter
 import json
 import re
 
@@ -9,10 +8,6 @@ from oauthlib.oauth1 import SIGNATURE_HMAC, SIGNATURE_TYPE_AUTH_HEADER
 
 from requests_oauthlib import OAuth1
 from requests import request
-
-
-global TOP
-TOP = Counter()
 
 
 def grep():
@@ -41,18 +36,9 @@ def grep():
                         print text
                 gevent.sleep(0.)
 
-def flush():
-    while True:
-        print ' '.join(['(%s)' % w for w, c in TOP.most_common(10)])
-        #TOP.clear()
-        gevent.sleep(3.)
-
-
-
 
 def main():
     gevent.spawn(grep)
-    #gevent.spawn(flush)
 
     while True:
         gevent.sleep(0)
