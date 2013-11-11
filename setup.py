@@ -10,6 +10,6 @@ setup(
     packages=find_packages(),
     install_requires=[
     	'gevent >= 1.0rc2', 'requests',
-    	'requests-oauthlib', 'numpy', 'pyyaml', 'nltk'],
+    	'requests-oauthlib'],
     dependency_links=['http://gevent.googlecode.com/files/gevent-1.0rc2.tar.gz'],
 )

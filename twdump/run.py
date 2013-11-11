@@ -5,7 +5,6 @@ import re
 
 import gevent
 
-from nltk import pos_tag, word_tokenize
 from oauthlib.oauth1 import SIGNATURE_HMAC, SIGNATURE_TYPE_AUTH_HEADER
 
 from requests_oauthlib import OAuth1
@@ -32,24 +31,15 @@ def grep():
         r = request('post', url,
             auth=auth, headers=headers,
             timeout=5, stream=True,
-            **{'params':'locations=-180,-90,180,90'})
+            **{'params':'locations=37.584229,55.730203,37.65564,55.774256'})
         if r.status_code == 200:
             for line in r.iter_lines():
                 if line:
                     data = json.loads(line)
                     text = unicode(data.get('text'))
                     if text:
-                        #nouns only
-                        text = text.replace('http', '')
-                        for word, tag in pos_tag(word_tokenize(text)):
-                            if tag == 'NN' and len(word) > 3 and word != 'None':
-                                TOP[word] += 1
-                        #all words
-                        #for word in text.strip().split(' '):
-                        #    if len(word) > 3:
-                        #        TOP[word] += 1
+                        print text
                 gevent.sleep(0.)
-
 
 def flush():
     while True:
@@ -58,9 +48,11 @@ def flush():
         gevent.sleep(3.)
 
 
+
+
 def main():
     gevent.spawn(grep)
-    gevent.spawn(flush)
+    #gevent.spawn(flush)
 
     while True:
         gevent.sleep(0)
